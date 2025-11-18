@@ -25,10 +25,10 @@ public class HardTasks {
         Objects.requireNonNull(tasks.getOrdersWithBabyProducts(),"Method getOrdersWithBabyProducts() returns null").forEach(System.out::println);
 
         // Завдання 3
-        // Objects.requireNonNull(tasks.applyDiscountToToys(),"Method applyDiscountToToys() returns null").forEach(System.out::println);
+        Objects.requireNonNull(tasks.applyDiscountToToys(),"Method applyDiscountToToys() returns null").forEach(System.out::println);
 
         // Завдання 4
-        // System.out.println(Objects.requireNonNull(tasks.getCheapestBook(),"Method getCheapestBook() returns null").get());
+        System.out.println(Objects.requireNonNull(tasks.getCheapestBook(),"Method getCheapestBook() returns null").get());
 
         // Завдання 5
         // Objects.requireNonNull(tasks.getRecentOrders(),"Method getRecentOrders() returns null").forEach(System.out::println);
@@ -45,47 +45,26 @@ public class HardTasks {
     }
 
     public List<Product> getBooksWithPrice() {
-        // Метод повинен повертати товари з id 7, 9, 16, 17, 24
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
         return products.stream().filter(s -> s.getCategory().equals("Books")).filter(s-> s.getPrice() > 100).toList();
     }
 
     public List<Order> getOrdersWithBabyProducts() {
 
-        // Метод повинен повертати замовлення з id 3, 4, 7, 8, 9, 10, 11, 14, 16, 17, 19,
-        // 20, 27, 28, 29, 30, 32, 34, 37, 38, 40, 44, 45, 47, 48, 50
-
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return null;
+        return orders.stream().filter(order -> order.getProducts().stream().anyMatch(p -> p.getCategory().equals("Baby")))
+                .sorted(Comparator.comparing(Order::getId))
+                .toList();
     }
 
     public List<Product> applyDiscountToToys() {
 
-        // region Вірна відповідь
-        // id та нова ціна товарів:
-        // id=2 price=6.33
-        // id=4 price=268.4
-        // id=6 price=73.26
-        // id=11 price=47.75
-        // id=13 price=147.685
-        // id=21 price=47.73
-        // id=26 price=179.635
-        // id=27 price=393.495
-        // id=28 price=158.045
-        // id=29 price=386.39
-        // id=30 price=455.73
-        // endregion
-
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return null;
+        return products.stream().filter(p -> p.getCategory().equals("Toys")).peek(p -> p.setPrice(p.getPrice() * 0.5)) // знижка 50%
+                .sorted(Comparator.comparing(Product::getId))
+                .toList();
     }
 
     public Optional<Product> getCheapestBook() {
 
-        // товар з id = 17
-
-        // TODO: напишіть вміст методу згідно умовам для того, щоб пройти тести
-        return null;
+        return products.stream().filter(p -> p.getCategory().equals("Books")).min(Comparator.comparing(Product::getPrice));
     }
 
     public List<Order> getRecentOrders() {
